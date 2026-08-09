@@ -71,6 +71,24 @@ export function Header() {
     }
   }, [syncIndicator, open])
 
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_MQ)
+    const onChange = () => {
+      if (mq.matches) {
+        setOpen(false)
+        document.body.style.overflow = ''
+      }
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
+
   const goTo = (id: PageId) => {
     setOpen(false)
     document.body.style.overflow = ''
