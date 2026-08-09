@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+# Duplicate root assets (app uses public/assets)
+/assets/
+
+# Unused / duplicate local recordings
+public/assets/HeyGen*.mp4
+public/assets/codora-logo.png

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Khushi — software developer specializing in websites, AI integration, and AI marketing content." />
+  <title>About — Khushi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,700;12..96,800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="about">
+  <div class="soft-transition" aria-hidden="true"></div>
+  <div class="site">
+    <header class="header">
+      <div class="header__inner">
+        <a href="index.html" class="logo"><span class="logo__mark" aria-hidden="true">K</span><span class="logo__text">KHU<span>SHI</span></span></a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav" aria-label="Primary">
+          <div class="nav__links">
+            <a href="index.html" class="nav__link" data-nav="home">Home</a>
+            <a href="about.html" class="nav__link" data-nav="about">About</a>
+            <a href="services.html" class="nav__link" data-nav="services">Services</a>
+            <a href="projects.html" class="nav__link" data-nav="projects">Projects</a>
+            <a href="contact.html" class="nav__link" data-nav="contact">Contact</a>
+            <span class="nav__indicator" aria-hidden="true"></span>
+          </div>
+          <a href="contact.html" class="nav__cta" data-nav="contact">Let's Talk</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--tight">
+        <div class="container about-hero">
+          <div class="about-portrait reveal-scale">
+            <div class="about-portrait__label">Your Photo<br />Coming Soon</div>
+          </div>
+          <div class="about-copy reveal reveal-d1">
+            <p class="eyebrow">About</p>
+            <h1>I build software people use — and content people actually read.</h1>
+            <p>
+              I’m a hands-on software developer who loves turning ideas into working websites and digital products. Over time I’ve worked with many clients, shipped projects on schedule, and learned that great tech only matters when it feels clear and useful.
+            </p>
+            <p>
+              AI is where I focus most today — adding smart features to software and creating AI-generated marketing content that helps brands grow. I’m also active on LinkedIn, sharing practical content around marketing and personal branding.
+            </p>
+            <p>
+              Design, content, and development all interest me. Software is still home base — AI makes the work sharper, faster, and more useful for the people I build for.
+            </p>
+            <a href="contact.html" class="btn btn--primary" style="margin-top: 0.5rem;"><span>Work With Me</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div class="container cta-band__inner">
+          <h2 class="reveal">Your next project doesn’t have to wait.</h2>
+          <div class="reveal reveal-d1">
+            <p>Share what you’re building — I’ll tell you how we can get there clearly and on time.</p>
+            <a href="contact.html" class="btn btn--primary"><span>Contact Me</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div>
+            <div class="footer__brand"><span class="logo__mark" aria-hidden="true">K</span><span class="logo__text">KHU<span>SHI</span></span></div>
+            <p class="footer__tag">Building websites, AI marketing, and smart product integrations that people notice.</p>
+          </div>
+          <nav class="footer__nav" aria-label="Footer">
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+        </div>
+        <div class="footer__bottom">
+          <p>© <span id="year"></span> Khushi. All rights reserved.</p>
+          <div class="socials"><a href="mailto:khushijagga14@gmail.com">Email</a><a href="https://wa.me/919817326283" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="https://www.linkedin.com/in/khushi-jagga21/" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
