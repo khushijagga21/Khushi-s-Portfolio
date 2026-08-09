@@ -6,9 +6,9 @@ export function ServicesPage() {
     <div id="services" className="page-block">
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Services</p>
-          <h1>Simple services. Serious results.</h1>
-          <p>
+          <p className="eyebrow reveal">Services</p>
+          <h1 className="reveal reveal-d1">Simple services. Serious results.</h1>
+          <p className="reveal reveal-d2">
             Whether you need a website that converts, AI marketing videos that stop the scroll, or AI features
             inside your product — here’s how I can help.
           </p>
@@ -16,8 +16,11 @@ export function ServicesPage() {
       </section>
 
       <section>
-        {servicesDetail.map((s) => (
-          <article className="service-detail__row reveal" key={s.num}>
+        {servicesDetail.map((s, i) => (
+          <article
+            className={`service-detail__row reveal${i ? ` reveal-d${Math.min(i, 3)}` : ''}`}
+            key={s.num}
+          >
             <div className="service-detail__index">{s.num}</div>
             <div className="service-detail__body">
               <h2 className="service-detail__title">{s.title}</h2>

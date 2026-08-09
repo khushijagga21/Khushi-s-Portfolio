@@ -7,10 +7,10 @@ export function ProjectsPage() {
     <div id="projects" className="page-block">
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Projects</p>
-          <h1>Work that tells a story.</h1>
-          <p>Browse by category — websites and AI creatives.</p>
-          <div className="project-jump">
+          <p className="eyebrow reveal">Projects</p>
+          <h1 className="reveal reveal-d1">Work that tells a story.</h1>
+          <p className="reveal reveal-d2">Browse by category — websites and AI creatives.</p>
+          <div className="project-jump reveal reveal-d3">
             <a href="#websites">Website</a>
             <a href="#ai-videos">AI Videos</a>
           </div>

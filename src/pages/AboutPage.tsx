@@ -5,14 +5,14 @@ export function AboutPage() {
     <div id="about" className="page-block">
       <section className="section section--tight">
         <div className="container about-hero">
-          <div className="about-portrait reveal-scale">
+          <div className="about-portrait reveal-left">
             <img
               src="/assets/khushi-portrait.png"
               alt="Khushi Jagga"
               className="about-portrait__img"
             />
           </div>
-          <div className="about-copy reveal reveal-d1">
+          <div className="about-copy reveal-right">
             <p className="eyebrow">About</p>
             <h1>Curious builder. Hands-on learner. Always figuring out how ideas become real products.</h1>
             <p>

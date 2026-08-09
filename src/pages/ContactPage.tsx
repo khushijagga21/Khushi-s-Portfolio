@@ -80,19 +80,6 @@ export function ContactPage() {
                 <span className="contact-link__label">Email</span>
                 <span className="contact-link__value">{CONTACT.email}</span>
               </a>
-              <a
-                className="contact-link"
-                href={`https://wa.me/${CONTACT.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.preventDefault()
-                  openWhatsApp()
-                }}
-              >
-                <span className="contact-link__label">WhatsApp</span>
-                <span className="contact-link__value">{CONTACT.whatsappDisplay}</span>
-              </a>
               <a className="contact-link" href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
                 <span className="contact-link__label">LinkedIn</span>
                 <span className="contact-link__value">{CONTACT.linkedinDisplay}</span>
@@ -104,7 +91,7 @@ export function ContactPage() {
             </div>
           </div>
 
-          <div className="contact-panel reveal reveal-d1">
+          <div className="contact-panel reveal-scale reveal-d1">
             <p className="contact-panel__label">Start a conversation</p>
             <p className="contact-panel__hint">
               Choose Email or WhatsApp — a ready message will open so you can send it in one tap.

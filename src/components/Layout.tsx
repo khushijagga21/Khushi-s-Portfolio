@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { CustomCursor } from './CustomCursor'
 import { Footer } from './Footer'
 import { Header } from './Header'
+import { ScrollProgress } from './ScrollProgress'
 import { SoftTransition } from './SoftTransition'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
@@ -20,6 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <>
       <SoftTransition />
       <CustomCursor />
+      <ScrollProgress />
       <div className="site">
         <Header />
         <main>{children}</main>
