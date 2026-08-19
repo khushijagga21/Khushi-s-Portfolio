@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
@@ -8,12 +9,8 @@ import { ServicesPage } from './pages/ServicesPage'
 import { useDocumentTitle } from './hooks/useUi'
 import { scrollToHashOnLoad } from './utils/scroll'
 
-/**
- * Single-page sequence:
- * Home → About → Services → Projects → Contact
- */
-export default function App() {
-  useDocumentTitle('Khushi — Software Developer & AI Creative')
+function Portfolio() {
+  useDocumentTitle('Khushi Jagga — software developer, content creator, freelancer')
 
   useEffect(() => {
     scrollToHashOnLoad()
@@ -27,5 +24,13 @@ export default function App() {
       <ProjectsPage />
       <ContactPage />
     </Layout>
+  )
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Portfolio />} />
+    </Routes>
   )
 }

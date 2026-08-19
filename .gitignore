@@ -12,3 +12,5 @@ dist-ssr
 # Unused / duplicate local recordings
 public/assets/HeyGen*.mp4
 public/assets/codora-logo.png
+.vercel
+.env*

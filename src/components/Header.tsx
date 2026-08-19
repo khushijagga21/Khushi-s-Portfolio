@@ -4,7 +4,7 @@ import { useHeaderScroll } from '../hooks/useUi'
 import { scrollToId } from '../utils/scroll'
 import { Logo } from './ui'
 
-const DESKTOP_MQ = '(min-width: 901px)'
+const DESKTOP_MQ = '(min-width: 1025px)'
 
 export function Header() {
   const scrolled = useHeaderScroll()
@@ -39,18 +39,24 @@ export function Header() {
   }, [active, moveIndicator])
 
   useEffect(() => {
+    let ticking = false
     const onScroll = () => {
-      const marker = window.scrollY + Math.min(180, window.innerHeight * 0.28)
-      let current: PageId = 'home'
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const marker = window.scrollY + Math.min(180, window.innerHeight * 0.28)
+        let current: PageId = 'home'
 
-      for (const link of NAV_LINKS) {
-        const el = document.getElementById(link.id)
-        if (!el) continue
-        const top = el.getBoundingClientRect().top + window.scrollY
-        if (top <= marker) current = link.id
-      }
+        for (const link of NAV_LINKS) {
+          const el = document.getElementById(link.id)
+          if (!el) continue
+          const top = el.getBoundingClientRect().top + window.scrollY
+          if (top <= marker) current = link.id
+        }
 
-      setActive((prev) => (prev === current ? prev : current))
+        setActive((prev) => (prev === current ? prev : current))
+        ticking = false
+      })
     }
 
     onScroll()
@@ -89,6 +95,17 @@ export function Header() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      document.body.style.overflow = ''
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   const goTo = (id: PageId) => {
     setOpen(false)
     document.body.style.overflow = ''
@@ -115,8 +132,9 @@ export function Header() {
         <Logo onClick={() => goTo('home')} />
         <button
           className={`nav-toggle${open ? ' is-open' : ''}`}
-          aria-label="Open menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
+          aria-controls="primary-nav"
           onClick={toggleMenu}
           type="button"
         >
@@ -124,7 +142,14 @@ export function Header() {
           <span />
           <span />
         </button>
-        <nav className={`nav${open ? ' is-open' : ''}`} aria-label="Primary">
+        <nav
+          id="primary-nav"
+          className={`nav${open ? ' is-open' : ''}`}
+          aria-label="Primary"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && open) toggleMenu()
+          }}
+        >
           <div className="nav__links" ref={linksWrapRef} onMouseLeave={syncIndicator}>
             {NAV_LINKS.map((link) => (
               <a
@@ -155,6 +180,18 @@ export function Header() {
           </a>
         </nav>
       </div>
+      {active !== 'contact' && !open ? (
+        <a
+          href="#contact"
+          className="mobile-cta"
+          onClick={(e) => {
+            e.preventDefault()
+            goTo('contact')
+          }}
+        >
+          Let's Talk
+        </a>
+      ) : null}
     </header>
   )
 }

@@ -1,3 +1,4 @@
+import { CONTACT } from '../data/site'
 import { ArrowIcon, Button } from '../components/ui'
 
 export function AboutPage() {
@@ -5,33 +6,41 @@ export function AboutPage() {
     <div id="about" className="page-block">
       <section className="section section--tight">
         <div className="container about-hero">
-          <div className="about-portrait reveal-left">
+          <div className="about-portrait reveal">
             <img
               src="/assets/khushi-portrait.png"
               alt="Khushi Jagga"
               className="about-portrait__img"
+              width={680}
+              height={850}
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 960px) 72vw, 340px"
             />
           </div>
-          <div className="about-copy reveal-right">
+          <div className="about-copy reveal reveal-d1">
             <p className="eyebrow">About</p>
-            <h1>Curious builder. Hands-on learner. Always figuring out how ideas become real products.</h1>
+            <h1>Hi, I’m Khushi.</h1>
             <p>
-              I’m Khushi — a Graduate Engineer Trainee at Siemens, working in the power automation sector. I get
-              to learn great tech every day while building a strong foundation across digital products,
-              electronics, and real-world engineering systems.
+              I live in Gurugram. I’m growing at Siemens as a GET in power automation systems — that’s the
+              full-time job, and I’m still early in it.
             </p>
             <p>
-              Alongside that, I work hands-on with AI tools — using them to create smarter workflows, sharper
-              content, and digital experiences that feel useful, not complicated. I love connecting code,
-              creativity, and technology in ways that actually help people.
+              Alongside that I’m a software developer. I work with AI technologies — Gen AI, website
+              development, and vibe coding. I’ve had hands-on with React, Next.js, Node.js, Express, MongoDB,
+              Firebase, MySQL, version control, and many more technologies. I’ve worked with 5+ clients so
+              far.
             </p>
             <p>
-              Outside work, I’m a content creator on LinkedIn, where I share what I’m learning around marketing,
-              personal branding, and building in public. Design, development, and storytelling all interest me —
-              and I’m here to keep growing through all of them.
+              I’m also a content creator on{' '}
+              <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+              . I post about the work, the stack, and what I’m actually building — that’s usually how people
+              find me.
             </p>
             <Button to="#contact" variant="primary" className="about-cta">
-              <span>Work With Me</span>
+              <span>Work with me</span>
               <ArrowIcon />
             </Button>
           </div>

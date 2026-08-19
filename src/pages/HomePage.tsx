@@ -6,7 +6,6 @@ const marqueeItems = [
   'Website Development',
   'AI Creative Marketing',
   'AI Integration',
-  'Brand Growth',
 ]
 
 /** Home = hero intro only. About / Services / Projects / Contact follow below. */
@@ -26,7 +25,7 @@ export function HomePage() {
               <span className="char">I</span>
             </em>
           </h1>
-          <p className="hero__role">Software developer, freelancer and content creator</p>
+          <p className="hero__role">Software developer · Content creator · Freelancer</p>
           <a
             className="hero__linkedin"
             href={CONTACT.linkedin}
@@ -41,12 +40,11 @@ export function HomePage() {
           </a>
           <div className="hero__accent-line" aria-hidden="true" />
           <div className="hero__row">
-            <p className="hero__headline">Code that looks good. Content that gets noticed.</p>
+            <p className="hero__headline">I write code, make content, and take on freelance work.</p>
             <div className="hero__copy-wrap">
               <p className="hero__copy">
-                I build websites people enjoy using, create AI-powered marketing videos that stop the scroll,
-                and integrate AI into existing products — all with one goal: your work should look sharp and
-                perform even sharper.
+                I’m Khushi, from Gurugram. Software developer, LinkedIn content creator, and freelancer —
+                Gen AI, websites, vibe coding. I’ve worked with 5+ clients so far.
               </p>
               <div className="hero__actions">
                 <Button to="#projects" variant="primary">

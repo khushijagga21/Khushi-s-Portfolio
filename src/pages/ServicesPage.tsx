@@ -1,5 +1,4 @@
-import { servicesDetail } from '../data/content'
-import { ArrowIcon, Button } from '../components/ui'
+import { aiIntegrationPricing, servicesDetail, servicesIntro, websitePricing } from '../data/content'
 
 export function ServicesPage() {
   return (
@@ -7,11 +6,8 @@ export function ServicesPage() {
       <section className="page-hero">
         <div className="container">
           <p className="eyebrow reveal">Services</p>
-          <h1 className="reveal reveal-d1">Simple services. Serious results.</h1>
-          <p className="reveal reveal-d2">
-            Whether you need a website that converts, AI marketing videos that stop the scroll, or AI features
-            inside your product — here’s how I can help.
-          </p>
+          <h1 className="reveal reveal-d1">What I take on.</h1>
+          <p className="reveal reveal-d2">{servicesIntro}</p>
         </div>
       </section>
 
@@ -37,21 +33,25 @@ export function ServicesPage() {
         ))}
       </section>
 
-      <section className="section">
-        <div className="container" style={{ textAlign: 'center', maxWidth: '36rem' }}>
-          <p className="eyebrow reveal">Better together</p>
-          <h2 className="section__title reveal reveal-d1" style={{ marginBottom: '1rem' }}>
-            Want the full stack?
+      <section className="section" id="pricing">
+        <div className="container">
+          <p className="eyebrow reveal">Website pricing</p>
+          <h2 className="section__title reveal reveal-d1" style={{ marginBottom: '2rem' }}>
+            What a website costs.
           </h2>
-          <p className="lead reveal reveal-d2" style={{ marginInline: 'auto' }}>
-            Website + AI marketing + AI integration make a powerful mix. Tell me what you’re aiming for and
-            I’ll suggest a package that fits your goals and budget.
-          </p>
-          <div className="reveal reveal-d3" style={{ marginTop: '2rem' }}>
-            <Button to="#contact" variant="primary">
-              <span>Request a Quote</span>
-              <ArrowIcon />
-            </Button>
+          <div className="pricing-grid">
+            {websitePricing.map((pkg) => (
+              <article className="pricing-card reveal" key={pkg.title}>
+                <h3>{pkg.title}</h3>
+                <p className="pricing-card__price">{pkg.price}</p>
+                <p>{pkg.text}</p>
+              </article>
+            ))}
+            <article className="pricing-card pricing-card--wide reveal">
+              <h3>{aiIntegrationPricing.title}</h3>
+              <p className="pricing-card__price">{aiIntegrationPricing.price}</p>
+              <p>{aiIntegrationPricing.text}</p>
+            </article>
           </div>
         </div>
       </section>

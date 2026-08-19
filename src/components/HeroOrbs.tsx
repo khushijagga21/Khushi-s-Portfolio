@@ -3,8 +3,9 @@ import { useEffect } from 'react'
 export function HeroOrbs() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
     const orbs = document.querySelectorAll<HTMLElement>('.hero__orb')
-    if (!orbs.length || reduced) return
+    if (!orbs.length || reduced || !fine) return
 
     let mx = 0
     let my = 0
@@ -27,12 +28,23 @@ export function HeroOrbs() {
       raf = requestAnimationFrame(parallax)
     }
 
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf)
+        raf = 0
+        return
+      }
+      if (!raf) raf = requestAnimationFrame(parallax)
+    }
+
     window.addEventListener('mousemove', onMove, { passive: true })
+    document.addEventListener('visibilitychange', onVisibility)
     raf = requestAnimationFrame(parallax)
 
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('mousemove', onMove)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
 

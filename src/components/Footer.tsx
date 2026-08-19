@@ -12,7 +12,7 @@ export function Footer() {
           <div>
             <Logo asLink={false} />
             <p className="footer__tag">
-              Building websites, AI marketing, and smart product integrations that people notice.
+              Software developer, content creator, and freelancer — based in Gurugram.
             </p>
           </div>
           <nav className="footer__nav" aria-label="Footer">

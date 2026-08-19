@@ -25,16 +25,7 @@ export function VideoProject({ title, cat, meta, video, feature }: Props) {
         }
       }}
     >
-      <div className="project__media">
-        <video
-          className="project__video"
-          src={`${video}#t=0.1`}
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        />
-      </div>
+      <div className="project__media project__media--video" />
       <div className="project__overlay" />
       <div className="project__play" aria-hidden="true">
         <span>OPEN</span>

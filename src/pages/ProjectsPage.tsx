@@ -8,8 +8,10 @@ export function ProjectsPage() {
       <section className="page-hero">
         <div className="container">
           <p className="eyebrow reveal">Projects</p>
-          <h1 className="reveal reveal-d1">Work that tells a story.</h1>
-          <p className="reveal reveal-d2">Browse by category — websites and AI creatives.</p>
+          <h1 className="reveal reveal-d1">Work that’s live.</h1>
+          <p className="reveal reveal-d2">
+            Websites and an AI campaign video. Click any card — it opens the real thing.
+          </p>
           <div className="project-jump reveal reveal-d3">
             <a href="#websites">Website</a>
             <a href="#ai-videos">AI Videos</a>
@@ -24,22 +26,25 @@ export function ProjectsPage() {
               <p className="eyebrow">01</p>
               <h2>Website</h2>
             </div>
-            <p>Fast, polished websites built to look premium and convert visitors into clients.</p>
           </div>
           <div className="projects-grid projects-grid--section">
             {websiteProjects.map((p) => {
-              const media =
-                'image' in p && p.image ? (
-                  <div
-                    className="project__media project__media--img"
-                    style={{
-                      backgroundImage: `url('${p.image}')`,
-                      backgroundPosition: 'imagePosition' in p ? p.imagePosition : 'center',
-                    }}
+              const media = p.image ? (
+                <div className="project__media project__media--img">
+                  <img
+                    src={p.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={1200}
+                    height={750}
+                    sizes="(max-width: 680px) 100vw, (max-width: 1024px) 50vw, 640px"
+                    style={{ objectPosition: p.imagePosition ?? 'center' }}
                   />
-                ) : (
-                  <div className={`project__media ${'mediaClass' in p ? p.mediaClass : ''}`} />
-                )
+                </div>
+              ) : (
+                <div className={`project__media ${p.mediaClass ?? ''}`} />
+              )
 
               const content = (
                 <>
@@ -53,15 +58,15 @@ export function ProjectsPage() {
                 </>
               )
 
-              const cls = `project${'feature' in p && p.feature ? ' project--feature' : ''} reveal-scale`
+              const cls = `project${p.feature ? ' project--feature' : ''} reveal-scale`
 
               return (
                 <a
                   key={p.title}
                   className={cls}
                   href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(p.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  aria-label={p.external ? `${p.title} — opens live site` : p.title}
                 >
                   {content}
                 </a>
@@ -78,7 +83,6 @@ export function ProjectsPage() {
               <p className="eyebrow">02</p>
               <h2>AI Videos</h2>
             </div>
-            <p>AI-crafted reels, ads, and campaign videos made to stop the scroll and grow your brand.</p>
           </div>
           <div className="projects-grid projects-grid--section">
             {aiVideoProjects.map((p) => {
@@ -119,12 +123,10 @@ export function ProjectsPage() {
         </div>
       </section>
 
-      <p className="projects-coming-soon reveal">More projects coming soon</p>
-
       <CtaBand
-        title="Want your project here next?"
-        text="Tell me what you’re building. I’ll help map the right mix of website, design, and AI creatives."
-        ctaLabel="Start a Project"
+        title="Need something like this for your brand?"
+        text="Send the name, the deadline, and a budget. I’ll write back with a plan and a number."
+        ctaLabel="Start a project"
       />
     </div>
   )

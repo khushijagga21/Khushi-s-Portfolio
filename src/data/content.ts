@@ -1,18 +1,45 @@
+export const servicesIntro =
+  'Three things, done by me: the website, the AI content, and AI inside your product. You talk to one person from first message to launch.'
+
+export const websitePricing = [
+  {
+    title: 'Simple website',
+    price: '₹3,000',
+    text: '₹3,000 per website, regardless of pages. You can request 5–6 changes.',
+  },
+  {
+    title: 'Complex website',
+    price: '₹5,000',
+    text: '₹5,000 per website. Includes a database and a more complex UI with animations and transitions.',
+  },
+  {
+    title: 'Website with unlimited changes',
+    price: '₹8,000',
+    text: '₹8,000 per website, with unlimited changes. Payment integration is not included.',
+  },
+] as const
+
+export const aiIntegrationPricing = {
+  title: 'AI integration on an existing website',
+  price: '₹15,000',
+  text: '₹15,000 if you already have a website and need AI integration. It’s a different job — it takes time to understand the codebase.',
+} as const
+
 export const servicesPreview = [
   {
     num: '01',
     title: 'Website Development',
-    text: 'Landing pages and full-stack sites with front-end, back-end, databases, animations, and fully responsive business websites.',
+    text: 'Landing pages and full websites — front-end, back-end, database, and layouts that work on a phone.',
   },
   {
     num: '02',
     title: 'AI Creative Marketing',
-    text: 'Creatives, reels & shorts, carousels, promotion clips, and brand content powered by AI for campaigns that get noticed.',
+    text: 'Reels, shorts, carousels, and promo clips made with AI, written to match your brand.',
   },
   {
     num: '03',
     title: 'AI Integration',
-    text: 'Already have a website or product? I add chat assistants, smart search, automation, and custom AI features that help users more.',
+    text: 'Chat, search, and automation added to a site or product you already have.',
   },
 ] as const
 
@@ -20,7 +47,7 @@ export const servicesDetail = [
   {
     num: '01',
     title: 'Website Development',
-    lead: 'From landing pages to full-stack websites — I build front-end and back-end with database integration, rich animations and transitions, and fully responsive layouts that work smoothly on every screen. Perfect for business sites that need to look sharp and perform.',
+    lead: 'Landing pages, business sites, and full-stack builds. I handle the design in the browser, the backend, and the database so the site holds up on a phone as well as a laptop.',
     tags: [
       'Landing Pages',
       'Full-Stack Websites',
@@ -35,13 +62,13 @@ export const servicesDetail = [
   {
     num: '02',
     title: 'AI Creative Marketing',
-    lead: 'AI-powered marketing creatives built to catch attention fast — reels and shorts, carousels, promotion clips, and brand content shaped to feel on-brand and ready for campaigns.',
+    lead: 'Campaign videos, reels, shorts, and carousels. I use AI to move faster, then edit so it still sounds like your brand — not a generic script.',
     tags: ['Creatives', 'Reels & Shorts', 'Carousels', 'Promotion Clips', 'Brand Content'],
   },
   {
     num: '03',
     title: 'AI Integration',
-    lead: 'Already have a website or product? I add AI where it actually helps — chat assistants, smart search, automation, and custom AI features that make your existing project faster, smarter, and more useful for users.',
+    lead: 'If you already have a product, I add assistants, search, and small automations. Login and real user flows when the project needs them.',
     tags: [
       'Chat Assistants',
       'Smart Search',
@@ -52,23 +79,62 @@ export const servicesDetail = [
   },
 ] as const
 
-export const websiteProjects = [
+export type WebsiteProject = {
+  title: string
+  cat: string
+  meta: string
+  href: string
+  image?: string
+  imagePosition?: string
+  mediaClass?: string
+  feature?: boolean
+  external?: boolean
+}
+
+export const websiteProjects: WebsiteProject[] = [
   {
     title: 'ARQO Design Collective',
     cat: 'Live Website',
-    meta: 'Premium architecture studio website — modern, minimal, and built to showcase luxury spaces.',
+    meta: 'Architecture studio website. Minimal, live at arqodesigncollective.com.',
     href: 'https://arqodesigncollective.com/',
-    image: '/assets/projects/arqo-design-collective.png',
+    image: '/assets/projects/arqo-design-collective.jpg',
     imagePosition: 'center top',
-    feature: true,
+    external: true,
   },
-] as const
+  {
+    title: 'HP Power Lab',
+    cat: 'Live Website',
+    meta: 'Fuel delivery platform for farmers, drivers, and admins — built for HP Power Lab.',
+    href: 'https://hp-power-lab-weld.vercel.app/',
+    image: '/assets/projects/hp-powerlab-cover.jpg',
+    imagePosition: 'center',
+    external: true,
+  },
+  {
+    title: 'workSphere',
+    cat: 'Live Website',
+    meta: 'Team workspace: chat, boards, whiteboard, meetings, and a code editor.',
+    href: 'https://worksphere-six.vercel.app/',
+    image: '/assets/projects/worksphere-cover.jpg',
+    imagePosition: 'center top',
+    external: true,
+  },
+  {
+    title: 'MyPDF',
+    cat: 'Live Website',
+    meta: 'Browser PDF tools — merge, split, compress, convert, edit.',
+    href: 'https://my-pdf-hazel.vercel.app/',
+    image: '/assets/projects/mypdf-cover.jpg',
+    imagePosition: 'center top',
+    external: true,
+  },
+]
 
 export const aiVideoProjects = [
   {
     title: 'Palmonas Campaign Video',
     cat: 'AI Marketing Video · Palmonas',
-    meta: 'AI-generated marketing video created for Palmonas — crafted for brand storytelling and campaign reach. Click to open in a new tab.',
+    meta: 'Marketing video generated with AI for Palmonas.',
     video: '/assets/projects/ai-marketing-heygen.mp4',
     feature: true,
   },
@@ -78,9 +144,33 @@ export const homeFeatured = [
   {
     title: 'ARQO Design Collective',
     cat: 'Website',
-    meta: 'Premium architecture studio site with luxury minimalism and modern polish.',
+    meta: 'Architecture studio website. Live at arqodesigncollective.com.',
     href: 'https://arqodesigncollective.com/',
-    image: '/assets/projects/arqo-design-collective.png',
+    image: '/assets/projects/arqo-design-collective.jpg',
+    imagePosition: 'center top',
+  },
+  {
+    title: 'HP Power Lab',
+    cat: 'Website',
+    meta: 'Fuel delivery platform from the HP Power Lab hackathon.',
+    href: 'https://hp-power-lab-weld.vercel.app/',
+    image: '/assets/projects/hp-powerlab-cover.jpg',
+    imagePosition: 'center',
+  },
+  {
+    title: 'workSphere',
+    cat: 'Website',
+    meta: 'Chat, boards, whiteboard, meet — one workspace.',
+    href: 'https://worksphere-six.vercel.app/',
+    image: '/assets/projects/worksphere-cover.jpg',
+    imagePosition: 'center top',
+  },
+  {
+    title: 'MyPDF',
+    cat: 'Website',
+    meta: 'PDF tools in the browser. Merge, split, convert.',
+    href: 'https://my-pdf-hazel.vercel.app/',
+    image: '/assets/projects/mypdf-cover.jpg',
     imagePosition: 'center top',
   },
 ] as const
