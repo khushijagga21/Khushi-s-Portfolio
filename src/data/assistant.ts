@@ -33,7 +33,6 @@ export const SERVICE_CHIPS = [
 
 const ALL_PRICING = 'See all pricing'
 const START_PROJECT = 'Start a project'
-const OTHER_SERVICES = 'Other services'
 
 const websiteFollowUp = [ALL_PRICING, 'AI Creative Marketing', 'AI Integration', START_PROJECT]
 const creativeFollowUp = [ALL_PRICING, 'Website Development', 'AI Integration', START_PROJECT]
