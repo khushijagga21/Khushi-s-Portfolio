@@ -10,26 +10,52 @@ type ChatMessage = {
   suggestions?: string[]
 }
 
+const HINT_KEY = 'khushi-chat-hint-seen'
+
 function uid() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+function hintAlreadySeen() {
+  try {
+    return sessionStorage.getItem(HINT_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function markHintSeen() {
+  try {
+    sessionStorage.setItem(HINT_KEY, '1')
+  } catch {
+    /* ignore private-mode storage errors */
+  }
+}
+
 export function SiteAssistant() {
   const [open, setOpen] = useState(false)
+  const [hint, setHint] = useState(false)
   const [input, setInput] = useState('')
   const [pending, setPending] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    {
-      id: 'welcome',
-      from: 'bot',
-      text: WELCOME.text,
-      suggestions: WELCOME.suggestions,
-    },
-  ])
+  const [greeted, setGreeted] = useState(false)
+  const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const titleId = useId()
+
+  useEffect(() => {
+    if (hintAlreadySeen()) return
+    const show = window.setTimeout(() => setHint(true), 1100)
+    const hide = window.setTimeout(() => {
+      setHint(false)
+      markHintSeen()
+    }, 11000)
+    return () => {
+      window.clearTimeout(show)
+      window.clearTimeout(hide)
+    }
+  }, [])
 
   useEffect(() => {
     const node = listRef.current
@@ -51,6 +77,34 @@ export function SiteAssistant() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
+
+  useEffect(() => {
+    if (!open || greeted) return
+    setPending(true)
+    const t = window.setTimeout(() => {
+      setMessages([
+        {
+          id: 'welcome',
+          from: 'bot',
+          text: WELCOME.text,
+          suggestions: WELCOME.suggestions,
+        },
+      ])
+      setPending(false)
+      setGreeted(true)
+    }, 420)
+    return () => window.clearTimeout(t)
+  }, [open, greeted])
+
+  const dismissHint = () => {
+    setHint(false)
+    markHintSeen()
+  }
+
+  const openChat = () => {
+    dismissHint()
+    setOpen(true)
+  }
 
   const ask = (text: string) => {
     const q = text.trim()
@@ -98,13 +152,26 @@ export function SiteAssistant() {
   }
 
   return (
-    <div className={`assistant${open ? ' is-open' : ''}`}>
+    <div className={`assistant${open ? ' is-open' : ''}${hint && !open ? ' is-hinting' : ''}`}>
+      {hint && !open ? (
+        <div className="assistant__hint" role="status">
+          <button type="button" className="assistant__hint-open" onClick={openChat}>
+            <span className="assistant__hint-kicker">Chat assistant</span>
+            <span className="assistant__hint-text">Hey — what's on your mind today?</span>
+          </button>
+          <button type="button" className="assistant__hint-dismiss" onClick={dismissHint} aria-label="Dismiss chat hint">
+            <span />
+            <span />
+          </button>
+        </div>
+      ) : null}
+
       {open ? (
         <section className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby={titleId}>
           <header className="assistant__head">
             <div>
               <p className="assistant__kicker">Assistant</p>
-              <h2 id={titleId}>Pricing, product, services</h2>
+              <h2 id={titleId}>What's on your mind?</h2>
             </div>
             <button type="button" className="assistant__close" onClick={() => setOpen(false)} aria-label="Close chat">
               <span />
@@ -158,7 +225,7 @@ export function SiteAssistant() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about pricing, product, or services…"
+              placeholder="Ask about pricing, services, or contact…"
               autoComplete="off"
               maxLength={400}
             />
@@ -171,10 +238,16 @@ export function SiteAssistant() {
 
       <button
         type="button"
-        className="assistant__fab"
+        className={`assistant__fab${hint && !open ? ' is-hinting' : ''}`}
         aria-label={open ? 'Close assistant' : 'Open assistant'}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (open) {
+            setOpen(false)
+            return
+          }
+          openChat()
+        }}
       >
         {open ? (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

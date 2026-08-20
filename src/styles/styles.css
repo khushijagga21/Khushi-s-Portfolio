@@ -180,10 +180,6 @@ body.is-leaving .soft-transition {
   scroll-margin-top: calc(var(--nav-offset) + 0.5rem);
 }
 
-#pricing {
-  scroll-margin-top: calc(var(--nav-offset) + 1rem);
-}
-
 @keyframes siteRise {
   from {
     opacity: 0;
@@ -1609,48 +1605,8 @@ a.project {
   font-size: 0.95rem;
 }
 
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 2.5vw, 1.5rem);
-}
-
-.pricing-card {
-  padding: 1.4rem 1.35rem 1.5rem;
-  border: 1px solid var(--line);
-  background: var(--bg-elevated);
-}
-
-.pricing-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.45rem;
-}
-
-.pricing-card__price {
-  font-family: var(--font-display);
-  font-size: clamp(1.85rem, 3vw, 2.25rem);
-  font-weight: 750;
-  color: var(--accent);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 0.75rem;
-}
-
-.pricing-card p {
-  color: var(--ink-soft);
-  font-size: 0.95rem;
-}
-
-.pricing-card--wide {
-  grid-column: 1 / -1;
-}
-
 @media (max-width: 800px) {
-  .work-steps,
-  .pricing-grid {
+  .work-steps {
     grid-template-columns: 1fr;
   }
 }
@@ -2747,6 +2703,106 @@ a.project {
   z-index: 10045;
 }
 
+.assistant__hint {
+  position: fixed;
+  right: 5.05rem;
+  bottom: 1.45rem;
+  z-index: 10046;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+  max-width: min(18.5rem, calc(100vw - 6.5rem));
+  background: var(--ink);
+  color: var(--white);
+  padding: 0.7rem 0.45rem 0.7rem 0.9rem;
+  box-shadow: 0 16px 36px rgba(18, 20, 26, 0.22);
+  animation: assistant-hint-in 0.45s var(--ease);
+}
+
+.assistant__hint::after {
+  content: '';
+  position: absolute;
+  right: -0.42rem;
+  bottom: 1.05rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  background: var(--ink);
+  transform: rotate(45deg);
+}
+
+.assistant__hint-open {
+  display: grid;
+  gap: 0.18rem;
+  text-align: left;
+  color: inherit;
+  background: none;
+  padding: 0;
+  min-width: 0;
+}
+
+.assistant__hint-kicker {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.assistant__hint-text {
+  font-size: 0.88rem;
+  line-height: 1.35;
+  font-weight: 550;
+}
+
+.assistant__hint-dismiss {
+  position: relative;
+  width: 1.7rem;
+  height: 1.7rem;
+  flex-shrink: 0;
+  color: var(--white);
+  background: transparent;
+  z-index: 1;
+}
+
+.assistant__hint-dismiss span {
+  position: absolute;
+  left: 0.42rem;
+  right: 0.42rem;
+  top: 50%;
+  height: 1.4px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.assistant__hint-dismiss span:first-child {
+  transform: rotate(45deg);
+}
+
+.assistant__hint-dismiss span:last-child {
+  transform: rotate(-45deg);
+}
+
+@keyframes assistant-hint-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes assistant-fab-pulse {
+  0%,
+  100% {
+    box-shadow: 0 12px 28px rgba(18, 20, 26, 0.22), 0 0 0 0 rgba(15, 92, 86, 0.35);
+  }
+  50% {
+    box-shadow: 0 12px 28px rgba(18, 20, 26, 0.22), 0 0 0 10px rgba(15, 92, 86, 0);
+  }
+}
+
 .assistant__fab {
   position: fixed;
   right: 1.2rem;
@@ -2761,6 +2817,10 @@ a.project {
   place-items: center;
   box-shadow: 0 12px 28px rgba(18, 20, 26, 0.22);
   transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.assistant__fab.is-hinting {
+  animation: assistant-fab-pulse 1.8s ease-out infinite;
 }
 
 .assistant__fab:hover {
@@ -2951,6 +3011,11 @@ a.project {
     bottom: calc(5.45rem + env(safe-area-inset-bottom, 0px));
   }
 
+  .assistant__hint {
+    right: 4.85rem;
+    bottom: calc(5.65rem + env(safe-area-inset-bottom, 0px));
+  }
+
   .assistant__panel {
     right: 0.65rem;
     left: 0.65rem;
@@ -2961,6 +3026,18 @@ a.project {
 }
 
 @media (max-width: 560px) {
+  .assistant__hint {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+    bottom: calc(9.15rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .assistant__hint::after {
+    right: 1.35rem;
+    bottom: -0.4rem;
+  }
+
   .assistant__panel {
     height: min(26rem, calc(100dvh - 12rem));
   }

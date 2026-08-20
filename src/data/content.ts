@@ -1,30 +1,6 @@
 export const servicesIntro =
   'Three things, done by me: the website, the AI content, and AI inside your product. You talk to one person from first message to launch.'
 
-export const websitePricing = [
-  {
-    title: 'Simple website',
-    price: '₹3,000',
-    text: '₹3,000 per website, regardless of pages. You can request 5–6 changes.',
-  },
-  {
-    title: 'Complex website',
-    price: '₹5,000',
-    text: '₹5,000 per website. Includes a database and a more complex UI with animations and transitions.',
-  },
-  {
-    title: 'Website with unlimited changes',
-    price: '₹8,000',
-    text: '₹8,000 per website, with unlimited changes. Payment integration is not included.',
-  },
-] as const
-
-export const aiIntegrationPricing = {
-  title: 'AI integration on an existing website',
-  price: '₹15,000',
-  text: '₹15,000 if you already have a website and need AI integration. It’s a different job — it takes time to understand the codebase.',
-} as const
-
 export const servicesPreview = [
   {
     num: '01',

@@ -15,7 +15,7 @@ function buildEmailMessage(name: string, service: string) {
   const body =
     `Hi Khushi,\n\n` +
     `I’m ${safeName}. I’m looking for help with ${safeService}.\n\n` +
-    `I can share more on the project, timeline, and budget.\n\n` +
+    `I can share more on the project and timeline.\n\n` +
     `Thanks`
   const subject = `Project inquiry — ${safeService}`
   return { body, subject }

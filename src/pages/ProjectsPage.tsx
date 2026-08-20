@@ -125,7 +125,7 @@ export function ProjectsPage() {
 
       <CtaBand
         title="Need something like this for your brand?"
-        text="Send the name, the deadline, and a budget. I’ll write back with a plan and a number."
+        text="Send the name and the deadline. I’ll write back with a plan."
         ctaLabel="Start a project"
       />
     </div>
