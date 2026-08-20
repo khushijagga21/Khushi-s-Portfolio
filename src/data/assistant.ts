@@ -17,42 +17,215 @@ export type ChatTurn = {
   text: string
 }
 
-type KnowledgeItem = {
-  id: string
-  keywords: string[]
-  phrases: string[]
-  answer: string
-  links?: AssistantLink[]
-  suggestions?: string[]
-}
-
 const contactLinks: AssistantLink[] = [
-  { label: 'Contact', href: '#contact' },
   { label: 'Email', href: `mailto:${CONTACT.email}`, external: true },
   { label: 'WhatsApp', href: `https://wa.me/${CONTACT.whatsapp}`, external: true },
+  { label: 'Contact page', href: '#contact' },
 ]
 
-const serviceLinks: AssistantLink[] = [
-  { label: 'Services', href: '#services' },
-  ...contactLinks,
+const START = `Email ${CONTACT.email} or WhatsApp ${CONTACT.whatsappDisplay} with your name, the work, and a deadline. I reply myself — usually the same day.`
+
+export const SERVICE_CHIPS = [
+  'Website Development',
+  'AI Creative Marketing',
+  'AI Integration',
+] as const
+
+const ALL_PRICING = 'See all pricing'
+const START_PROJECT = 'Start a project'
+const OTHER_SERVICES = 'Other services'
+
+const websiteFollowUp = [ALL_PRICING, 'AI Creative Marketing', 'AI Integration', START_PROJECT]
+const creativeFollowUp = [ALL_PRICING, 'Website Development', 'AI Integration', START_PROJECT]
+const integrationFollowUp = [ALL_PRICING, 'Website Development', 'AI Creative Marketing', START_PROJECT]
+const pricingFollowUp = [
+  '₹3,000 — simple site',
+  '₹5,000 — complex site',
+  '₹8,000 — unlimited changes',
+  '₹15,000 — AI on existing site',
+  'Website Development',
+  'AI Creative Marketing',
+  START_PROJECT,
 ]
 
-const START = `Email ${CONTACT.email} or WhatsApp ${CONTACT.whatsappDisplay} with your name, the work, and a deadline.`
+const PRICING_LIST = `Here’s everything I charge:
 
-const QUOTE =
-  'I don’t list charges here. Share the brief on Email or WhatsApp and I’ll come back with a plan.'
+Websites
+• Simple website — ₹3,000 per website, regardless of pages. You can request 5–6 changes.
+• Complex website — ₹5,000 per website. Includes a database and a more complex UI with animations and transitions. Payments are not included.
+• Unlimited changes — ₹8,000 per website. Payment integration is not included.
 
-export const MENU = ['Pricing', 'Services', 'Contact'] as const
+AI integration on an existing website
+• ₹15,000. It’s a different job — it takes time to understand the codebase.
+
+AI creative marketing (reels, shorts, carousels)
+• Quoted from your brief: platform, length, and how many pieces.`
 
 export const WELCOME: AssistantReply = {
-  text: `Hey — what's on your mind today?\n\nWhat service do you need? Pick one below, or type it.`,
-  suggestions: [...MENU],
+  text: `Hey — what's on your mind today?\n\nWhat service do you need? Click one below, or type it.\n\n• Website Development\n• AI Creative Marketing\n• AI Integration`,
+  suggestions: [...SERVICE_CHIPS, ALL_PRICING],
 }
+
+const replies = {
+  welcome: WELCOME,
+
+  website: {
+    text: `Website development — I build the site from scratch: landing pages, business sites, and full-stack products.
+
+What's included
+• Front-end, back-end, and database when the product needs data
+• Layouts that work on a phone and a laptop
+• Animations and transitions
+• Login and APIs if you have users
+
+Pricing (per website)
+• Simple — ₹3,000. Any number of pages. 5–6 rounds of changes. No database, no login, no payments.
+• Complex — ₹5,000. Database, richer UI, animations and transitions. Login sits here if you need accounts.
+• Unlimited changes — ₹8,000. Payment integration is not included.
+
+Want the full price list, another service, or shall we start a brief?`,
+    links: contactLinks,
+    suggestions: websiteFollowUp,
+  },
+
+  creative: {
+    text: `AI creative marketing — reels, shorts, carousels, and campaign clips.
+
+What's included
+• Script and visuals generated with AI, then edited so it still sounds like your brand
+• Reels and shorts for Instagram, YouTube, or LinkedIn
+• Carousels and promo / campaign clips
+
+Pricing
+This one is quoted from your brief — platform, length, and how many pieces. A 15-second reel and a full campaign film are different jobs, so there isn’t one public rate.
+
+Website and AI-integration prices are fixed. Want those, or send a brief for videos?`,
+    links: contactLinks,
+    suggestions: creativeFollowUp,
+  },
+
+  integration: {
+    text: `AI integration — if you already have a website or product, I add AI inside it.
+
+What's included
+• Chat assistants
+• Smart search
+• Small automations
+• Custom AI features
+• I work in your existing code. I have to understand the repo first — that’s why this is a separate job from a new website.
+
+Pricing
+₹15,000 if you already have a website and need AI added.
+
+Need a new website instead, the full price list, or shall we start?`,
+    links: contactLinks,
+    suggestions: integrationFollowUp,
+  },
+
+  pricing: {
+    text: `${PRICING_LIST}\n\nWhich of these are you looking at?`,
+    links: contactLinks,
+    suggestions: pricingFollowUp,
+  },
+
+  simple: {
+    text: `Simple website — ₹3,000 per website.
+
+What's included
+• A new site with pages and layout
+• Works on phone and desktop
+• Same price regardless of how many pages
+• 5–6 rounds of changes after you see it
+
+Not included: database, login, payments, or unlimited revisions.
+
+If you later need a database, animations, or login, that becomes the ₹5,000 package.
+
+Want the other website prices, or start a brief?`,
+    links: contactLinks,
+    suggestions: ['₹5,000 — complex site', '₹8,000 — unlimited changes', ALL_PRICING, START_PROJECT],
+  },
+
+  complex: {
+    text: `Complex website — ₹5,000 per website.
+
+What's included
+• Database (MongoDB, Firebase, or MySQL)
+• A more complex UI
+• Animations and transitions
+• APIs and login if the product needs accounts
+
+Not included: payment integration.
+
+If you want unlimited changes after launch, that’s ₹8,000 instead — still without payments.
+
+Want the full list, or start a brief?`,
+    links: contactLinks,
+    suggestions: ['₹3,000 — simple site', '₹8,000 — unlimited changes', ALL_PRICING, START_PROJECT],
+  },
+
+  unlimited: {
+    text: `Website with unlimited changes — ₹8,000 per website.
+
+What's included
+• The website build
+• Unlimited changes after you see it
+
+Not included: payment integration (Razorpay, Stripe, checkout, UPI). Payments are scoped separately in the brief.
+
+If you don’t need unlimited revisions, ₹5,000 covers database + animations, or ₹3,000 covers a pages-only site.
+
+Want another package, or start a brief?`,
+    links: contactLinks,
+    suggestions: ['₹3,000 — simple site', '₹5,000 — complex site', ALL_PRICING, START_PROJECT],
+  },
+
+  aiPrice: {
+    text: `AI integration on an existing website — ₹15,000.
+
+What's included
+• Chat, search, or automations inside a product you already have
+• Work in your existing codebase
+
+Why this price: it’s a different job from a new site. I have to read and understand your repo before I add anything.
+
+If you need a new website instead, that’s ₹3,000 / ₹5,000 / ₹8,000 depending on the build.
+
+Want all pricing, or start a brief?`,
+    links: contactLinks,
+    suggestions: ['Website Development', ALL_PRICING, START_PROJECT],
+  },
+
+  start: {
+    text: `Send a short brief: your name, what you need, and a deadline if you have one.\n\n${START}\n\nWhich service should I expect?`,
+    links: contactLinks,
+    suggestions: [...SERVICE_CHIPS, ALL_PRICING],
+  },
+
+  payments: {
+    text: `Payment integration (Razorpay, Stripe, checkout, UPI) can be part of a build, but it is not included in the ₹8,000 unlimited-changes package — or in ₹3,000 / ₹5,000.\n\nTell me in the brief if you need payments and I’ll scope it.\n\nIs this a new website or an existing one?`,
+    links: contactLinks,
+    suggestions: ['Website Development', 'AI Integration', ALL_PRICING, START_PROJECT],
+  },
+
+  stack: {
+    text: `How I build:\n\n• Front-end: React, Next.js\n• Back-end: Node.js, Express\n• Data: MongoDB, Firebase, or MySQL\n• Git\n• Gen AI where it speeds the work\n\nWhich service is this for?`,
+    links: contactLinks,
+    suggestions: [...SERVICE_CHIPS, ALL_PRICING, START_PROJECT],
+  },
+
+  fallback: {
+    text: `I can walk you through the services I provide, what’s included, and the pricing.\n\nClick one below, or type it.`,
+    suggestions: [...SERVICE_CHIPS, ALL_PRICING, START_PROJECT],
+  },
+} satisfies Record<string, AssistantReply>
 
 function normalize(text: string) {
   return text
     .toLowerCase()
     .replace(/[’‘]/g, "'")
+    .replace(/₹/g, '')
+    .replace(/,/g, '')
     .replace(/[^a-z0-9.+#\s/-]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
@@ -62,219 +235,138 @@ function has(query: string, ...needles: string[]) {
   return needles.some((n) => query.includes(n))
 }
 
-function phraseHits(query: string, phrase: string) {
-  if (query.includes(phrase)) return true
-  const words = phrase.split(' ').filter((w) => w.length > 1)
-  return words.length >= 2 && words.every((w) => query.includes(w))
-}
-
-const knowledge: KnowledgeItem[] = [
-  {
-    id: 'quote',
-    keywords: [
-      'price',
-      'pricing',
-      'cost',
-      'budget',
-      'rate',
-      'rates',
-      'fee',
-      'charge',
-      'charges',
-      'quote',
-      'how much',
-      'rupee',
-      'inr',
-      'rs',
-    ],
-    phrases: [
-      'pricing',
-      'how much',
-      'what does it cost',
-      'your rates',
+function intentOf(query: string): keyof typeof replies {
+  if (
+    has(
+      query,
       'see all pricing',
-      'website pricing',
+      'all pricing',
+      'full price',
       'price list',
-      'charges',
-    ],
-    answer: `${QUOTE}\n\nTell me if it’s a new website, AI on a site you already have, or AI videos — that changes the brief.\n\n${START}`,
-    links: contactLinks,
-    suggestions: ['Services', 'Contact', 'New website'],
-  },
-  {
-    id: 'services',
-    keywords: ['service', 'services', 'offer', 'provide', 'product', 'products', 'package'],
-    phrases: ['services', 'what do you offer', 'what services', 'what can you do', 'your services', 'what you provide'],
-    answer: `Services I provide:\n\n1. Website development — new sites: pages, full-stack, database, animations, responsive layouts.\n2. AI creative marketing — reels, shorts, carousels, campaign clips.\n3. AI integration — chat, search, or automation inside a product you already have. That means reading your codebase first.\n\nWhich of these is the product?`,
-    links: serviceLinks,
-    suggestions: ['New website', 'AI on my existing site', 'AI videos / creatives', 'Pricing', 'Contact'],
-  },
-  {
-    id: 'websites',
-    keywords: ['website', 'websites', 'web', 'landing', 'pages', 'business site'],
-    phrases: ['new website', 'build a website', 'make a website', 'website development', 'landing page'],
-    answer: `For a new website I can do landing pages through full-stack builds: React / Next.js on the front, Node.js + Express when you need APIs or login, and MongoDB, Firebase, or MySQL for data.\n\nPages-only is simpler. Database, login, and animations is a bigger product.\n\nWhat does this site need — mostly pages, or users and data?`,
-    links: serviceLinks,
-    suggestions: ['Mostly pages', 'Users and data', 'How do I start?'],
-  },
-  {
-    id: 'ai-integration',
-    keywords: [
-      'chatbot',
-      'assistant',
-      'automation',
-      'integrate',
-      'integration',
-      'existing',
-      'codebase',
-    ],
-    phrases: [
-      'ai on my existing site',
-      'existing website',
-      'existing site',
-      'add ai',
+      'pricing details',
+      'different pricing',
+      'your rates',
+      'how much',
+      'what does it cost'
+    ) ||
+    query === 'pricing' ||
+    query === 'prices' ||
+    query === 'cost' ||
+    query === 'charges'
+  ) {
+    return 'pricing'
+  }
+
+  if (
+    has(query, '3000', '3 000', 'simple website', 'simple site', 'pages only', 'mostly pages')
+  ) {
+    return 'simple'
+  }
+
+  if (
+    has(query, '5000', '5 000', 'complex website', 'complex site', 'users and data', 'need a database')
+  ) {
+    return 'complex'
+  }
+
+  if (has(query, '8000', '8 000', 'unlimited changes', 'unlimited revisions')) {
+    return 'unlimited'
+  }
+
+  if (
+    has(
+      query,
+      '15000',
+      '15 000',
+      '15k',
+      'ai on existing site',
+      'ai on an existing',
+      'existing website'
+    )
+  ) {
+    return 'aiPrice'
+  }
+
+  if (
+    has(
+      query,
+      'ai creative',
+      'creative marketing',
+      'ai videos',
+      'ai video',
+      'reels',
+      'shorts',
+      'carousel',
+      'carousels',
+      'campaign film',
+      'promo'
+    )
+  ) {
+    return 'creative'
+  }
+
+  if (
+    has(
+      query,
       'ai integration',
-      'add a chatbot',
-    ],
-    answer: `If you already have a website and want AI in it — chat assistant, smart search, or automations — I work in your existing code. That’s a different job from a new site because I have to understand the repo first.\n\nWhat do you want added — chatbot, search, or automation?`,
-    links: contactLinks,
-    suggestions: ['Chatbot', 'Smart search', 'Automation', 'How do I start?'],
-  },
-  {
-    id: 'videos',
-    keywords: ['video', 'videos', 'reel', 'reels', 'shorts', 'carousel', 'creative', 'campaign', 'promo'],
-    phrases: ['ai videos', 'ai videos / creatives', 'ai creative', 'marketing video'],
-    answer: `AI creatives: reels, shorts, carousels, and campaign clips — generated with AI, then edited to match your brand.\n\nSend platform and how many pieces in the brief.\n\nWhat do you need — reels, a campaign film, or carousels?`,
-    links: contactLinks,
-    suggestions: ['Reels / shorts', 'Campaign film', 'Carousels', 'How do I start?'],
-  },
-  {
-    id: 'stack',
-    keywords: [
-      'tech',
-      'stack',
-      'react',
-      'next',
-      'next.js',
-      'node',
-      'express',
-      'mongodb',
-      'firebase',
-      'mysql',
-      'git',
-      'frontend',
-      'backend',
-      'fullstack',
-      'api',
-    ],
-    phrases: ['what stack', 'which stack', 'what tech', 'do you use react', 'tools you use'],
-    answer: `How I build:\n\n• Front-end: React, Next.js\n• Back-end: Node.js, Express\n• Data: MongoDB, Firebase, or MySQL\n• Git\n• Gen AI where it speeds the work\n\nWhich of those does your product need?`,
-    links: serviceLinks,
-    suggestions: ['New website', 'AI on my existing site', 'How do I start?'],
-  },
-  {
-    id: 'payments',
-    keywords: ['payment', 'payments', 'razorpay', 'stripe', 'checkout', 'upi', 'gateway', 'cart', 'ecommerce'],
-    phrases: ['need payments', 'payment integration', 'accept payments', 'do you do payments'],
-    answer: `Yes, payment integration can be part of a build — Razorpay, Stripe, checkout, UPI — but it’s scoped in the brief, not as a public rate card.\n\nIs this a new website or an existing one?`,
-    links: contactLinks,
-    suggestions: ['New website', 'Existing site', 'How do I start?'],
-  },
-  {
-    id: 'login-auth',
-    keywords: ['login', 'auth', 'authentication', 'signup', 'account', 'users', 'user', 'database', 'db'],
-    phrases: ['user login', 'need login', 'need accounts', 'need a database'],
-    answer: `Login, signup, and user data need a database and APIs — that’s a full product, not a static page site.\n\nIf accounts already exist and you want AI on top, that’s existing-site AI integration.\n\nDoes the product need accounts, or is it a public site?`,
-    links: serviceLinks,
-    suggestions: ['Needs accounts', 'Public site only', 'AI on existing site', 'How do I start?'],
-  },
-  {
-    id: 'start',
-    keywords: ['start', 'hire', 'contact', 'email', 'whatsapp', 'begin', 'brief'],
-    phrases: ['contact', 'how do i start', 'how to start', 'get started', 'start a project', 'get in touch'],
-    answer: `Send a short brief: your name, what you need, and a deadline if you have one. I reply myself — usually the same day.\n\n${START}\n\nWhich service should I expect?`,
-    links: contactLinks,
-    suggestions: ['Pricing', 'Services', 'New website'],
-  },
-  {
-    id: 'process',
-    keywords: ['process', 'flow', 'steps'],
-    phrases: ['how do you work', 'what’s the process', 'how it works'],
-    answer: `You send a brief → I confirm the scope → I build → you review.\n\nFor AI on an existing site I start by reading your code.\n\nReady to send a brief?`,
-    links: contactLinks,
-    suggestions: ['How do I start?', 'What stack?', 'What services?'],
-  },
-  {
-    id: 'mix',
-    keywords: ['both', 'combo', 'together'],
-    phrases: ['website and videos', 'site and ai', 'all three'],
-    answer: `You can combine a website, AI creatives, and AI inside a product. They’re scoped as one brief if you want one person on all of it.\n\nWhat are you combining?`,
-    links: contactLinks,
-    suggestions: ['Website + videos', 'Website + AI', 'How do I start?'],
-  },
-]
+      'existing site',
+      'existing product',
+      'add ai',
+      'chatbot',
+      'smart search',
+      'automation'
+    )
+  ) {
+    return 'integration'
+  }
 
-function scoreItem(query: string, item: KnowledgeItem) {
-  let score = 0
-  for (const phrase of item.phrases) {
-    if (phraseHits(query, phrase)) score += 16
+  if (
+    has(
+      query,
+      'website development',
+      'new website',
+      'new site',
+      'build a website',
+      'make a website',
+      'landing page',
+      'business site'
+    ) ||
+    query === 'website' ||
+    query === 'websites' ||
+    query === 'web'
+  ) {
+    return 'website'
   }
-  for (const keyword of item.keywords) {
-    if (query.includes(keyword)) score += keyword.length > 6 ? 4 : 2
-  }
-  return score
-}
 
-function fromKnowledge(query: string): AssistantReply | null {
-  const ranked = knowledge
-    .map((item) => ({ item, score: scoreItem(query, item) }))
-    .sort((a, b) => b.score - a.score)
-  const best = ranked[0]
-  if (!best || best.score < 3) return null
-  return {
-    text: best.item.answer,
-    links: best.item.links,
-    suggestions: best.item.suggestions,
+  if (has(query, 'payment', 'razorpay', 'stripe', 'checkout', 'upi', 'gateway')) {
+    return 'payments'
   }
-}
 
-function fromConversation(query: string): AssistantReply | null {
-  if (query === 'pricing') return fromKnowledge('pricing')
-  if (query === 'services') return fromKnowledge('services')
-  if (query === 'contact') return fromKnowledge('contact')
+  if (has(query, 'tech stack', 'what stack', 'react', 'next.js', 'node', 'mongodb', 'firebase', 'mysql')) {
+    return 'stack'
+  }
 
-  if (has(query, 'new website', 'a new site', 'new site', 'build me a site', 'i need a website')) {
-    return fromKnowledge('new website')
+  if (
+    has(
+      query,
+      'start a project',
+      'how do i start',
+      'get started',
+      'get in touch',
+      'contact',
+      'hire',
+      'email',
+      'whatsapp'
+    )
+  ) {
+    return 'start'
   }
-  if (has(query, 'mostly pages', 'pages only', 'public site only')) {
-    return {
-      text: `That’s a simpler website — pages and layout, phone and desktop.\n\n${QUOTE}\n\n${START}`,
-      links: contactLinks,
-      suggestions: ['Users and data instead', 'How do I start?'],
-    }
+
+  if (has(query, 'other services', 'what services', 'your services', 'what do you offer', 'what can you do')) {
+    return 'welcome'
   }
-  if (has(query, 'users and data', 'needs accounts', 'database + login')) {
-    return {
-      text: `That’s a fuller product: database, APIs, login if you need accounts, richer UI.\n\n${QUOTE}\n\n${START}`,
-      links: contactLinks,
-      suggestions: ['How do I start?', 'What stack?'],
-    }
-  }
-  if (has(query, 'chatbot', 'smart search', 'automation')) {
-    return {
-      text: `That’s AI on a site you already have. I’ll need the repo to understand the codebase, then add that feature.\n\n${START}`,
-      links: contactLinks,
-      suggestions: ['How do I start?', 'What stack?'],
-    }
-  }
-  if (has(query, 'reels', 'shorts', 'campaign film', 'carousels')) {
-    return {
-      text: `Send platform, length, and how many pieces in the brief.\n\n${START}`,
-      links: contactLinks,
-      suggestions: ['Also a website', 'How do I start?'],
-    }
-  }
-  return null
+
+  return 'fallback'
 }
 
 export function replyTo(message: string, _history: ChatTurn[] = []): AssistantReply {
@@ -283,19 +375,9 @@ export function replyTo(message: string, _history: ChatTurn[] = []): AssistantRe
 
   const query = normalize(raw)
 
-  if (/^(hi|hii|hey|hello|yo|namaste)\b/.test(raw) && query.split(' ').length < 4) {
+  if (/^(hi|hii|hey|hello|yo|namaste)\b/.test(query) && query.split(' ').length < 4) {
     return WELCOME
   }
 
-  const conversational = fromConversation(query)
-  if (conversational) return conversational
-
-  const hit = fromKnowledge(query)
-  if (hit) return hit
-
-  return {
-    text: `I can help with websites, AI creatives, and AI inside a product you already have — plus how I’d build it.\n\n${QUOTE}\n\nWhat do you need?`,
-    links: contactLinks,
-    suggestions: [...MENU],
-  }
+  return replies[intentOf(query)]
 }

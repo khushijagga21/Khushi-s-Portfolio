@@ -225,7 +225,7 @@ export function SiteAssistant() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about pricing, services, or contact…"
+              placeholder="Ask about a service, what’s included, or pricing…"
               autoComplete="off"
               maxLength={400}
             />
